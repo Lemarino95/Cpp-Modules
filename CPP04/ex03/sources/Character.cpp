@@ -18,17 +18,14 @@ Character::Character(std::string name) : _name(name)
 	std::cout << "A character named " << _name << " is born" << std::endl;
 }
 
-Character::Character(const Character &obj) { Character::operator=(obj); }
-
-// static AMateria	*copy_Materia(const AMateria *obj_mat)
-// {
-// 	if (obj_mat)
-// 	{
-// 		if (obj_mat->getType() == "ice")
-// 		return (new Ice(obj_mat)) ;
-		
-// 	}
-// }
+Character::Character(const Character &obj)
+{
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = NULL;
+	for (int i = 0; i < 20; i++)
+		this->_backpack[i] = NULL;
+	Character::operator=(obj);
+}
 
 Character	&Character::operator=(const Character &obj)
 {
@@ -45,7 +42,7 @@ Character	&Character::operator=(const Character &obj)
 		}
 		for (int i = 0; i < 20; i++)
 		{
-			if(obj._inventory[i])
+			if(obj._backpack[i])
 				this->_backpack[i] = obj._backpack[i]->clone();
 			else
 				this->_backpack[i] = NULL;
@@ -67,13 +64,18 @@ std::string const	&Character::getName() const { return _name; }
 
 void	Character::equip(AMateria* m)
 {
+	if (!m)
+	{
+		std::cout << "Materia could not be equipped" << std::endl;
+		return ;
+	}
 	int	i = 0;
 	while (i < 4 && this->_inventory[i])
 		i++;
 	if (!this->_inventory[i])
 	{
 		this->_inventory[i] = m;
-		std::cout << m->getType() << " materia equipped on " << this->_name << " in _inventory[" << i << std::endl;
+		std::cout << m->getType() << " materia equipped on " << this->_name << " in _inventory[" << i << "]" << std::endl;
 		return;
 	}
 	std::cout << this->_name << " inventory's is full" << std::endl;
@@ -87,6 +89,11 @@ void	Character::unequip(int idx)
 		std::cout << "Invalid inventory index" << std::endl;
 		return;
 	}
+	else if (!_inventory[idx])
+	{
+		std::cout << "inventory slot already empty" << std::endl;
+		return ;
+	}
 
 	int	i = 0;
 	while (this->_backpack[i] && i < 20)
@@ -98,7 +105,10 @@ void	Character::unequip(int idx)
 		std::cout << _backpack[i]->getType() << " materia succesfully unequipped from " << _name << std::endl;
 	}
 	else
-		std::cout << BGY << _backpack[i]->getType() << " materia got lost from " << _name << NO_C << std::endl;
+	{
+		std::cout << BGY << _inventory[idx]->getType() << " materia got lost from " << _name << NO_C << std::endl;
+		_inventory[idx] = NULL;
+	}
 }
 
 
@@ -108,6 +118,8 @@ void	Character::use(int idx, ICharacter& target)
 		std::cout << "Invalid inventory index" << std::endl;
 	else if (this->_inventory[idx])
 		this->_inventory[idx]->use(target);
+	else
+		std::cout << "Couldn't use materia: empty inventory slot" << std::endl;
 }
 
 

@@ -18,7 +18,7 @@ Cure::~Cure() { std::cout << BGR << "Cure Materia destroyed" << NO_C << "\n"; }
 
 Cure	*Cure::clone() const
 {
-	std::cout << "Cure Materia cloned" << "\n";
+	std::cout << "cloning Cure Materia" << "\n";
 	return (new Cure());
 }
 

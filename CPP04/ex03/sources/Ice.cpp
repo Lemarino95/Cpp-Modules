@@ -18,7 +18,7 @@ Ice::~Ice() { std::cout << BGR << "Ice Materia destroyed" << NO_C << "\n"; }
 
 Ice	*Ice::clone() const
 {
-	std::cout << "Ice Materia cloned" << "\n";
+	std::cout << "cloning Ice Materia" << "\n";
 	return (new Ice());
 }
 

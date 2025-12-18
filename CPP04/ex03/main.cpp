@@ -28,6 +28,30 @@ int	main()
 	me->unequip(1);
 	me->unequip(5);
 
+	std::cout << "~~~~~~~~~~~~~" << std::endl;
+
+	Character	cloud("Cloud");
+	std::cout << BGG << "~~~Cloud' name: " << cloud.getName() << NO_C << std::endl;
+	cloud.equip(src->createMateria("ice"));
+	cloud.equip(src->createMateria("fire"));
+	cloud.equip(src->createMateria("cure"));
+	cloud.use(0, *me);
+	cloud.use(1, *me);
+	cloud.unequip(1);
+	cloud.unequip(5);
+
+	std::cout << "~~~~~~~~~~~~~" << std::endl;
+	Character	zack(cloud);
+	// Character	zack;
+	// zack = cloud;
+	std::cout << BGY << "~~~Zack's name: " << zack.getName() << NO_C << std::endl;
+	cloud.equip(src->createMateria("ice"));
+	cloud.equip(src->createMateria("fire"));
+	cloud.equip(src->createMateria("cure"));
+	cloud.use(0, *me);
+	cloud.use(1, *me);
+	cloud.use(2, *me);
+
 	delete bob;
 	delete me;
 	delete src;
