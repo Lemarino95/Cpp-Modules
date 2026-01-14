@@ -32,7 +32,7 @@ public:
 	A_Animal	&operator=(const A_Animal &obj);
 	virtual ~A_Animal();
 
-	virtual void makeSound() const;
+	virtual void makeSound() const = 0;
 	std::string getType() const;
 };
 
