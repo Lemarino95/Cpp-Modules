@@ -1,0 +1,61 @@
+#include "Bureaucrat.hpp"
+
+Bureaucrat::Bureaucrat() : _name("CogInTheMachine"), _grade(150)
+{ std::cout << this->_name << " got hired at the lowest grade (150)" << std::endl; }
+
+Bureaucrat::Bureaucrat(std::string name, int grade)
+{
+	if (grade > 150)
+		throw GradeTooLowException();
+	else if (grade < 1)
+		throw GradeTooHighException();
+
+	this->_name = name;
+	this->_grade = grade;
+	std::cout << this->_name << " got hired with grade " << this->_grade << std::endl;
+}
+
+Bureaucrat::Bureaucrat(const Bureaucrat &obj) { Bureaucrat::operator=(obj); }
+
+Bureaucrat	&Bureaucrat::operator=(const Bureaucrat &obj)
+{
+	if (this != &obj)
+	{
+		this->_name = obj._name;
+		this->_grade = obj._grade;
+	}
+
+	return *this;
+}
+Bureaucrat::~Bureaucrat() { std::cout << BGR << this->_name << " got fired" << NO_C << std::endl; }
+
+std::string	Bureaucrat::getName() const { return this-> _name; }
+
+int	Bureaucrat::getGrade() const { return this->_grade; }
+
+void	Bureaucrat::promote(int n_ranks)
+{
+	if ((this->_grade - n_ranks) < 1)
+		throw GradeTooHighException();
+	this->_grade -= n_ranks;
+}
+
+void	Bureaucrat::demote(int n_ranks)
+{
+	if ((this->_grade + n_ranks) > 150)
+		throw GradeTooLowException();
+	this->_grade += n_ranks;
+}
+
+std::ostream	&operator<<(std::ostream &stream, const Bureaucrat &obj)
+{
+	stream << obj.getName() << ", bureaucrat grade: " << obj.getGrade() << std::endl;
+
+	return stream;
+}
+
+const char*	Bureaucrat::GradeTooHighException::what() const throw()
+{ return "Maximum grade exceeded"; }
+
+const char*	Bureaucrat::GradeTooLowException::what() const throw()
+{ return "Minimum grade exceeded"; }
