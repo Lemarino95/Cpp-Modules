@@ -3,27 +3,22 @@
 Bureaucrat::Bureaucrat() : _name("CogInTheMachine"), _grade(150)
 { std::cout << this->_name << " got hired at the lowest grade (150)" << std::endl; }
 
-Bureaucrat::Bureaucrat(std::string name, int grade)
+Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name), _grade(grade)
 {
 	if (grade > 150)
 		throw GradeTooLowException();
 	else if (grade < 1)
 		throw GradeTooHighException();
 
-	this->_name = name;
-	this->_grade = grade;
 	std::cout << this->_name << " got hired with grade " << this->_grade << std::endl;
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat &obj) { Bureaucrat::operator=(obj); }
+Bureaucrat::Bureaucrat(const Bureaucrat &obj) : _name(obj._name), _grade(obj._grade) {}
 
 Bureaucrat	&Bureaucrat::operator=(const Bureaucrat &obj)
 {
-	if (this != &obj)
-	{
-		this->_name = obj._name;
-		this->_grade = obj._grade;
-	}
+	(void)obj;
+	std::cout << "Bureaucrats name can't be changed" << std::endl;
 
 	return *this;
 }
